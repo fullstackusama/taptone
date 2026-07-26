@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMasterControls();
   setupSynthesizerLab();
   setupCopyButtons();
+  setupThemeToggle();
   startSpectrumVisualizer();
 });
 
@@ -63,8 +64,7 @@ function setupMasterControls(): void {
     muted = !muted;
     taptone.configure({ muted });
     toggleMute.classList.toggle('active', !muted);
-    muteLabel.textContent = muted ? 'Muted' : 'Audio On';
-    toggleMute.querySelector('.btn-icon')!.textContent = muted ? '🔇' : '🔊';
+    muteLabel.textContent = muted ? 'Muted' : 'AUDIO ON';
   });
 
   let hapticsEnabled = true;
@@ -72,9 +72,33 @@ function setupMasterControls(): void {
     hapticsEnabled = !hapticsEnabled;
     taptone.configure({ hapticsEnabled });
     toggleHaptics.classList.toggle('active', hapticsEnabled);
-    hapticLabel.textContent = hapticsEnabled ? 'Haptics On' : 'Haptics Off';
-    toggleHaptics.querySelector('.btn-icon')!.textContent = hapticsEnabled ? '📳' : '🔕';
+    hapticLabel.textContent = hapticsEnabled ? 'HAPTICS ON' : 'HAPTICS OFF';
   });
+}
+
+/**
+ * Theme Toggle Handler (Light / Dark)
+ */
+function setupThemeToggle(): void {
+  const themeBtn = document.getElementById('toggle-theme')!;
+  const themeLabel = document.getElementById('theme-label')!;
+
+  // Read initial saved theme or system preference
+  const savedTheme = localStorage.getItem('taptone_theme') || 'dark';
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(nextTheme);
+    localStorage.setItem('taptone_theme', nextTheme);
+  });
+
+  function applyTheme(theme: string): void {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeBtn.classList.toggle('active', theme === 'light');
+    themeLabel.textContent = theme === 'dark' ? 'LIGHT THEME' : 'DARK THEME';
+  }
 }
 
 /**
