@@ -158,4 +158,4 @@ taptones.configure({ masterVolume: 0.5 });
 
 ## 📄 License
 
-MIT © [fullstackusama](https://github.com/fullstackusama)
+MIT © [fullstackusama](https://github.com/fullstackusama/taptones)

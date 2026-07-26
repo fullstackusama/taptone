@@ -43,10 +43,10 @@
   "author": "fullstackusama",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fullstackusama/taptone.git"
+    "url": "git+https://github.com/fullstackusama/taptones.git"
   },
   "bugs": {
-    "url": "https://github.com/fullstackusama/taptone/issues"
+    "url": "https://github.com/fullstackusama/taptones/issues"
   },
   "homepage": "https://taptones.vercel.app",
   "license": "MIT",
