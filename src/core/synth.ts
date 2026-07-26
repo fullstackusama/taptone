@@ -60,7 +60,7 @@ export class SynthEngine {
 
       this.ctx = new AudioContextClass();
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(this.config.masterVolume, this.ctx.currentTime);
+      this.masterGain.gain.value = this.config.masterVolume;
 
       this.analyserNode = this.ctx.createAnalyser();
       this.analyserNode.fftSize = 64;
@@ -93,6 +93,9 @@ export class SynthEngine {
     const ctx = this.getAudioContext();
     if (!ctx || !this.masterGain) return;
 
+    // Ensure master gain is always active
+    this.masterGain.gain.value = this.config.masterVolume;
+
     // If context is suspended (first click), resume first then play sound!
     if (ctx.state === 'suspended') {
       ctx
@@ -101,7 +104,6 @@ export class SynthEngine {
           this.playNode(ctx, options);
         })
         .catch(() => {
-          // Fallback attempt
           this.playNode(ctx, options);
         });
       return;
@@ -116,9 +118,10 @@ export class SynthEngine {
   private playNode(ctx: AudioContext, options: SoundOptions): void {
     if (!this.masterGain) return;
 
+    // Re-verify master gain
+    this.masterGain.gain.value = this.config.masterVolume;
+
     const duration = options.duration ?? 0.04;
-    const attack = options.attack ?? 0.002;
-    const decay = options.decay ?? duration;
     let baseFreq = options.frequency ?? 800;
     const endFreq = options.endFrequency;
     const waveType: WaveformType = options.type ?? 'sine';
@@ -131,8 +134,8 @@ export class SynthEngine {
       baseFreq += (Math.random() * 2 - 1) * jitterRange;
     }
 
-    // Schedule audio nodes
-    const now = ctx.currentTime + 0.002;
+    // Use current AudioContext time
+    const now = ctx.currentTime;
 
     // Trigger paired haptic vibration
     if (hapticPattern) {
@@ -141,7 +144,7 @@ export class SynthEngine {
 
     // Handle Noise buffer (for crisp tactile clicks)
     if (waveType === 'noise') {
-      this.playNoise(ctx, now, attack, decay, volume);
+      this.playNoise(ctx, now, duration, volume);
       return;
     }
 
@@ -158,15 +161,14 @@ export class SynthEngine {
       osc.frequency.linearRampToValueAtTime(Math.max(20, endFreq), now + duration);
     }
 
-    // Gain Envelope (Linear Ramping is 100% reliable on 1st AudioContext resume tick)
-    gainNode.gain.setValueAtTime(0.0001, now);
-    gainNode.gain.linearRampToValueAtTime(volume, now + attack);
-    gainNode.gain.linearRampToValueAtTime(0.0001, now + attack + decay);
+    // Direct Gain Assignment + Decay Ramp Down (100% audible on 1st click)
+    gainNode.gain.setValueAtTime(volume, now);
+    gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
 
     osc.connect(gainNode);
     gainNode.connect(this.masterGain);
 
-    const stopTime = now + attack + decay + 0.01;
+    const stopTime = now + duration + 0.01;
 
     osc.onended = () => {
       try {
@@ -184,7 +186,7 @@ export class SynthEngine {
   /**
    * Helper to synthesize white noise buffer for tactile micro clicks.
    */
-  private playNoise(ctx: AudioContext, now: number, attack: number, decay: number, volume: number): void {
+  private playNoise(ctx: AudioContext, now: number, duration: number, volume: number): void {
     if (!this.noiseBuffer) {
       const bufferSize = ctx.sampleRate * 0.5; // 0.5 seconds of noise
       this.noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -203,15 +205,14 @@ export class SynthEngine {
 
     noiseSource.buffer = this.noiseBuffer;
 
-    gainNode.gain.setValueAtTime(0.0001, now);
-    gainNode.gain.linearRampToValueAtTime(volume, now + attack);
-    gainNode.gain.linearRampToValueAtTime(0.0001, now + attack + decay);
+    gainNode.gain.setValueAtTime(volume, now);
+    gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
 
     noiseSource.connect(filter);
     filter.connect(gainNode);
     gainNode.connect(this.masterGain!);
 
-    const stopTime = now + attack + decay + 0.01;
+    const stopTime = now + duration + 0.01;
 
     noiseSource.onended = () => {
       try {
