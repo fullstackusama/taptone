@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupPresetPads(): void {
   const pads = document.querySelectorAll<HTMLButtonElement>('.sound-pad');
   pads.forEach((pad) => {
+    // Unlock AudioContext on pointerdown (fires ~30ms before click event)
+    pad.addEventListener('pointerdown', () => {
+      taptone.synth.getAudioContext();
+    }, { passive: true });
+
     pad.addEventListener('click', () => {
       const soundName = pad.dataset.sound;
       if (!soundName) return;

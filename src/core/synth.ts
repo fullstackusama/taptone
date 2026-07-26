@@ -93,10 +93,28 @@ export class SynthEngine {
     const ctx = this.getAudioContext();
     if (!ctx || !this.masterGain) return;
 
-    // Immediately trigger resume if context is suspended
+    // If context is suspended (first click), resume first then play sound!
     if (ctx.state === 'suspended') {
-      ctx.resume().catch(() => {});
+      ctx
+        .resume()
+        .then(() => {
+          this.playNode(ctx, options);
+        })
+        .catch(() => {
+          // Fallback attempt
+          this.playNode(ctx, options);
+        });
+      return;
     }
+
+    this.playNode(ctx, options);
+  }
+
+  /**
+   * Internal sound node generator executed when AudioContext is running.
+   */
+  private playNode(ctx: AudioContext, options: SoundOptions): void {
+    if (!this.masterGain) return;
 
     const duration = options.duration ?? 0.04;
     const attack = options.attack ?? 0.002;
@@ -113,8 +131,8 @@ export class SynthEngine {
       baseFreq += (Math.random() * 2 - 1) * jitterRange;
     }
 
-    // Schedule slightly ahead (+5ms) to guarantee Web Audio clock sync
-    const now = ctx.currentTime + 0.005;
+    // Schedule audio nodes
+    const now = ctx.currentTime + 0.002;
 
     // Trigger paired haptic vibration
     if (hapticPattern) {
@@ -154,7 +172,7 @@ export class SynthEngine {
         osc.disconnect();
         gainNode.disconnect();
       } catch {
-        // Ignore disconnect errors if context closed
+        // Ignore disconnect errors
       }
     };
 
