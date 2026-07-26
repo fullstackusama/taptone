@@ -11,7 +11,8 @@
   --accent-green: #10b981;
   --accent-red: #f43f5e;
   --accent-amber: #f59e0b;
-  --code-bg: #040507;
+  --code-bg: #050608;
+  --code-text: #38bdf8;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -29,7 +30,8 @@
   --accent-green: #059669;
   --accent-red: #e11d48;
   --accent-amber: #d97706;
-  --code-bg: #f1f5f9;
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
 }
 
 * {
@@ -512,7 +514,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 1.25rem;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--accent-cyan);
+  color: var(--code-text);
   line-height: 1.6;
   overflow-x: auto;
 }
@@ -549,12 +551,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .code-card pre {
-  background: #040507;
+  background: var(--code-bg);
   border: 1px solid var(--border-color);
   padding: 1rem;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--text-main);
+  color: var(--code-text);
+  line-height: 1.6;
   overflow-x: auto;
 }
 
