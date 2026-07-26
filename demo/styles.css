@@ -1,18 +1,20 @@
 :root {
   --bg-main: #08090c;
   --card-bg: #0d0f14;
+  --code-bg: #040507;
   --border-color: #1e222d;
   --border-hover: #3f465a;
   --text-main: #f8fafc;
   --text-muted: #71717a;
   --text-dim: #52525b;
-  --accent-primary: #f8fafc;
   --accent-cyan: #06b6d4;
   --accent-green: #10b981;
   --accent-red: #f43f5e;
   --accent-amber: #f59e0b;
-  --code-bg: #050608;
-  --code-text: #38bdf8;
+  --btn-action-bg: #f8fafc;
+  --btn-action-text: #000000;
+  --btn-action-hover: #e2e8f0;
+  --hover-bg: #141720;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -20,25 +22,27 @@
 [data-theme="light"] {
   --bg-main: #f8fafc;
   --card-bg: #ffffff;
+  --code-bg: #f1f5f9;
   --border-color: #e2e8f0;
   --border-hover: #cbd5e1;
   --text-main: #0f172a;
   --text-muted: #64748b;
   --text-dim: #94a3b8;
-  --accent-primary: #0f172a;
   --accent-cyan: #0284c7;
   --accent-green: #059669;
   --accent-red: #e11d48;
   --accent-amber: #d97706;
-  --code-bg: #0f172a;
-  --code-text: #38bdf8;
+  --btn-action-bg: #0f172a;
+  --btn-action-text: #ffffff;
+  --btn-action-hover: #1e293b;
+  --hover-bg: #f8fafc;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0 !important; /* Zero roundness across all elements */
+  border-radius: 0 !important; /* Strict sharp geometry across all elements */
 }
 
 body {
@@ -48,6 +52,7 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .app-shell {
@@ -95,6 +100,7 @@ body {
   color: var(--text-muted);
   border: 1px solid var(--border-color);
   padding: 0.2rem 0.5rem;
+  background: var(--card-bg);
 }
 
 .brand-row {
@@ -225,7 +231,7 @@ body {
 }
 
 .btn-toggle {
-  background: transparent;
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
   padding: 0.5rem 1rem;
@@ -242,12 +248,13 @@ body {
 .btn-toggle:hover {
   border-color: var(--border-hover);
   color: var(--text-main);
+  background: var(--hover-bg);
 }
 
 .btn-toggle.active {
   border-color: var(--text-main);
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--code-bg);
 }
 
 .toggle-icon {
@@ -301,11 +308,11 @@ body {
 }
 
 .sound-pad:hover {
-  background: #141720;
+  background: var(--hover-bg);
 }
 
 .sound-pad:active {
-  background: var(--border-hover);
+  background: var(--border-color);
 }
 
 .pad-header {
@@ -314,7 +321,6 @@ body {
   justify-content: space-between;
   align-items: center;
   color: var(--text-muted);
-
 }
 
 .sound-pad:hover .pad-header {
@@ -402,12 +408,12 @@ body {
 
 .wave-chip:hover {
   color: var(--text-main);
-  background: #141720;
+  background: var(--hover-bg);
 }
 
 .wave-chip.active {
   background: var(--text-main);
-  color: #000000;
+  color: var(--card-bg);
   font-weight: 700;
 }
 
@@ -451,9 +457,9 @@ input[type="range"]::-webkit-slider-thumb {
 .btn-action {
   width: 100%;
   padding: 0.85rem;
-  background: var(--text-main);
+  background: var(--btn-action-bg);
   border: none;
-  color: #000000;
+  color: var(--btn-action-text);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
@@ -466,11 +472,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .btn-action:hover {
-  background: #e2e8f0;
-}
-
-.btn-action:active {
-  background: #cbd5e1;
+  background: var(--btn-action-hover);
 }
 
 /* Code Box */
@@ -514,7 +516,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 1.25rem;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--code-text);
+  color: var(--accent-cyan);
   line-height: 1.6;
   overflow-x: auto;
 }
@@ -556,7 +558,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 1rem;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--code-text);
+  color: var(--accent-cyan);
   line-height: 1.6;
   overflow-x: auto;
 }
@@ -603,12 +605,12 @@ input[type="range"]::-webkit-slider-thumb {
   left: 50%;
   transform: translateX(-50%) translateY(100px);
   background: var(--text-main);
-  color: #000000;
+  color: var(--bg-main);
   padding: 0.6rem 1.2rem;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--border-color);
   opacity: 0;
   transition: all 0.2s ease;
   pointer-events: none;
