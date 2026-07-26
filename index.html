@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TapTone — Synthesized Web Audio & Haptics for Web UI</title>
+  <meta name="description" content="Zero-dependency synthesized micro-sound FX and Web Haptics library for web applications with 0KB downloaded audio assets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./demo/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="container">
+      
+      <!-- Minimalist Header -->
+      <header class="header">
+        <div class="top-meta">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>ZERO AUDIO FILES • &lt; 2.4 KB GZIPPED</span>
+          </div>
+          <span class="version-tag">v1.0.0</span>
+        </div>
+
+        <div class="brand-row">
+          <h1 class="brand-logo">
+            <svg class="brand-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
+              <path d="M2 10v4"></path>
+              <path d="M6 6v12"></path>
+              <path d="M10 3v18"></path>
+              <path d="M14 7v10"></path>
+              <path d="M18 9v6"></path>
+              <path d="M22 11v2"></path>
+            </svg>
+            <span>TapTone</span>
+          </h1>
+          
+          <div class="command-box">
+            <span class="prompt">$</span>
+            <code>npm install taptone</code>
+            <button class="btn-copy-icon" id="copy-install-btn" title="Copy install command">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="hero-desc">
+          Minimalist, zero-dependency synthesized audio &amp; mobile haptics for modern web interfaces.
+        </p>
+
+        <!-- Spectrum Canvas -->
+        <div class="canvas-card">
+          <div class="canvas-meta">
+            <span class="meta-label">AUDIO SPECTRUM FREQUENCY ANALYZER</span>
+            <span class="meta-status">60 FPS REALTIME</span>
+          </div>
+          <canvas id="spectrum-canvas" width="800" height="60"></canvas>
+        </div>
+      </header>
+
+      <!-- Minimalist Controls Bar -->
+      <div class="controls-bar">
+        <div class="control-group">
+          <label for="master-vol">MASTER VOLUME</label>
+          <input type="range" id="master-vol" min="0" max="1" step="0.05" value="1">
+          <span id="master-vol-val" class="mono-val">100%</span>
+        </div>
+
+        <div class="control-actions">
+          <button id="toggle-mute" class="btn-toggle active">
+            <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span id="mute-label">AUDIO ON</span>
+          </button>
+          <button id="toggle-haptics" class="btn-toggle active">
+            <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-9.33-5"></path><line x1="2" y1="2" x2="22" y2="22"></line><path d="M10.5 10.5a3 3 0 0 0 4.24 4.24"></path><path d="M16.8 16.8A6 6 0 0 1 6 12"></path></svg>
+            <span id="haptic-label">HAPTICS ON</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sound Presets Matrix -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">PRESETS MATRIX</h2>
+          <span class="section-subtitle">Click square pads to trigger synthesized sound &amp; vibration</span>
+        </div>
+
+        <div class="presets-grid">
+          <!-- Click -->
+          <button class="sound-pad" data-sound="click">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+              <span class="pad-tag">TRIANGLE</span>
+            </div>
+            <span class="pad-name">Click</span>
+            <span class="pad-desc">Mechanical button click</span>
+          </button>
+
+          <!-- Pop -->
+          <button class="sound-pad" data-sound="pop">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+              <span class="pad-tag">SINE</span>
+            </div>
+            <span class="pad-name">Pop</span>
+            <span class="pad-desc">Dropdowns &amp; tooltips</span>
+          </button>
+
+          <!-- Toggle ON -->
+          <button class="sound-pad" data-sound="toggleOn">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <span class="pad-tag">RISING</span>
+            </div>
+            <span class="pad-name">Toggle ON</span>
+            <span class="pad-desc">Switch ON pitch step</span>
+          </button>
+
+          <!-- Toggle OFF -->
+          <button class="sound-pad" data-sound="toggleOff">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <span class="pad-tag">FALLING</span>
+            </div>
+            <span class="pad-name">Toggle OFF</span>
+            <span class="pad-desc">Switch OFF pitch step</span>
+          </button>
+
+          <!-- Success -->
+          <button class="sound-pad accent-green" data-sound="success">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="pad-tag">CHIME</span>
+            </div>
+            <span class="pad-name">Success</span>
+            <span class="pad-desc">Task completion chime</span>
+          </button>
+
+          <!-- Error -->
+          <button class="sound-pad accent-red" data-sound="error">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <span class="pad-tag">BUZZ</span>
+            </div>
+            <span class="pad-name">Error</span>
+            <span class="pad-desc">Validation error warning</span>
+          </button>
+
+          <!-- Slide -->
+          <button class="sound-pad" data-sound="slide">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+              <span class="pad-tag">SWEEP</span>
+            </div>
+            <span class="pad-name">Slide</span>
+            <span class="pad-desc">Slider &amp; tab pitch sweep</span>
+          </button>
+
+          <!-- Laser -->
+          <button class="sound-pad accent-cyan" data-sound="laser">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span class="pad-tag">ZAP</span>
+            </div>
+            <span class="pad-name">Laser</span>
+            <span class="pad-desc">Arcade action zap</span>
+          </button>
+
+          <!-- Nudge -->
+          <button class="sound-pad" data-sound="nudge">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+              <span class="pad-tag">THUMP</span>
+            </div>
+            <span class="pad-name">Nudge</span>
+            <span class="pad-desc">Tactile drag snap</span>
+          </button>
+
+          <!-- Zip -->
+          <button class="sound-pad" data-sound="zip">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
+              <span class="pad-tag">FAST</span>
+            </div>
+            <span class="pad-name">Zip</span>
+            <span class="pad-desc">Fast micro zip switch</span>
+          </button>
+
+          <!-- Sparkle -->
+          <button class="sound-pad accent-amber" data-sound="sparkle">
+            <div class="pad-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+              <span class="pad-tag">SHIMMER</span>
+            </div>
+            <span class="pad-name">Sparkle</span>
+            <span class="pad-desc">Ascending shimmer tone</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Synthesizer Laboratory -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">SYNTHESIZER LABORATORY</h2>
+          <span class="section-subtitle">Tweak audio parameters and generate zero-overhead code</span>
+        </div>
+
+        <div class="lab-card">
+          <div class="lab-controls">
+            
+            <div class="form-row">
+              <label class="form-label">WAVEFORM SHAPE</label>
+              <div class="wave-selector">
+                <button class="wave-chip active" data-wave="sine">Sine</button>
+                <button class="wave-chip" data-wave="triangle">Triangle</button>
+                <button class="wave-chip" data-wave="square">Square</button>
+                <button class="wave-chip" data-wave="sawtooth">Sawtooth</button>
+                <button class="wave-chip" data-wave="noise">Noise</button>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>START FREQ</span>
+                  <span id="val-freq" class="mono-val">800 Hz</span>
+                </div>
+                <input type="range" id="param-freq" min="50" max="3000" step="10" value="800">
+              </div>
+
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>END FREQ (RAMP)</span>
+                  <span id="val-endfreq" class="mono-val">300 Hz</span>
+                </div>
+                <input type="range" id="param-endfreq" min="50" max="3000" step="10" value="300">
+              </div>
+
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>DURATION</span>
+                  <span id="val-duration" class="mono-val">0.05 s</span>
+                </div>
+                <input type="range" id="param-duration" min="0.01" max="0.5" step="0.01" value="0.05">
+              </div>
+
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>VOLUME</span>
+                  <span id="val-volume" class="mono-val">0.25</span>
+                </div>
+                <input type="range" id="param-volume" min="0.05" max="1.0" step="0.05" value="0.25">
+              </div>
+
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>HAPTICS DURATION</span>
+                  <span id="val-haptic" class="mono-val">10 ms</span>
+                </div>
+                <input type="range" id="param-haptic" min="0" max="50" step="2" value="10">
+              </div>
+
+              <div class="form-item">
+                <div class="item-meta">
+                  <span>PITCH JITTER</span>
+                  <span id="val-jitter" class="mono-val">0%</span>
+                </div>
+                <input type="range" id="param-jitter" min="0" max="0.3" step="0.02" value="0">
+              </div>
+            </div>
+
+            <button id="btn-play-custom" class="btn-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>PLAY SYNTHESIZED SOUND</span>
+            </button>
+          </div>
+
+          <!-- Code Snippet Output -->
+          <div class="code-box">
+            <div class="code-box-header">
+              <span>GENERATED CODE</span>
+              <button id="copy-code-btn" class="btn-copy-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>COPY CODE</span>
+              </button>
+            </div>
+            <pre><code id="code-snippet">import { taptone } from 'taptone';
+
+taptone.play({
+  frequency: 800,
+  endFrequency: 300,
+  duration: 0.05,
+  type: 'sine',
+  volume: 0.25,
+  haptic: 10
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code Integration Cards -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">INTEGRATION EXAMPLES</h2>
+          <span class="section-subtitle">Vanilla JS, React 18/19, and Next.js App Router</span>
+        </div>
+
+        <div class="cards-grid">
+          <div class="code-card">
+            <div class="card-header">
+              <span>VANILLA JS / TYPESCRIPT</span>
+              <button class="btn-copy-sm copy-ex-btn" data-target="code-vanilla">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>COPY</span>
+              </button>
+            </div>
+            <pre><code id="code-vanilla">import { taptone } from 'taptone';
+
+// One-liner presets
+document.querySelector('#btn')
+  .addEventListener('click', () => {
+    taptone.click();
+  });
+
+// Presets
+taptone.pop();
+taptone.success();
+taptone.error();</code></pre>
+          </div>
+
+          <div class="code-card">
+            <div class="card-header">
+              <span>REACT / NEXT.JS APP ROUTER</span>
+              <button class="btn-copy-sm copy-ex-btn" data-target="code-react">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>COPY</span>
+              </button>
+            </div>
+            <pre><code id="code-react">'use client';
+
+import { useTapTone } from 'taptone/react';
+
+export function Button() {
+  const { click, sparkle } = useTapTone();
+
+  return (
+    &lt;button onClick={() =&gt; sparkle()}&gt;
+      Sparkle Action
+    &lt;/button&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          CREATED BY 
+          <a href="https://github.com/fullstackusama/taptone" target="_blank" rel="noopener noreferrer" class="author-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <strong>fullstackusama</strong>
+          </a> 
+          • OPEN SOURCE MIT LICENSE
+        </p>
+      </footer>
+
+    </div>
+  </div>
+
+  <div id="toast" class="toast-box">Copied to clipboard</div>
+
+  <script type="module" src="./demo/main.ts"></script>
+</body>
+</html>
