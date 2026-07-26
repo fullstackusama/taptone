@@ -120,7 +120,10 @@ export class SynthEngine {
     if (!this.masterGain) return;
     this.masterGain.gain.value = this.config.masterVolume;
 
-    const duration = options.duration ?? 0.04;
+    // If context just resumed (currentTime < 0.1), ensure duration is at least 0.12s to cover wake latency!
+    const requestedDuration = options.duration ?? 0.08;
+    const duration = ctx.currentTime < 0.1 ? Math.max(requestedDuration, 0.12) : requestedDuration;
+
     let baseFreq = options.frequency ?? 800;
     const endFreq = options.endFrequency;
     const waveType: WaveformType = options.type ?? 'sine';

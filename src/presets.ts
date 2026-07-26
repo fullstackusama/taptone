@@ -15,11 +15,9 @@ export class PresetsManager {
     this.synth.play({
       frequency: 1200,
       endFrequency: 400,
-      duration: 0.025,
-      attack: 0.001,
-      decay: 0.02,
+      duration: 0.08,
       type: 'triangle',
-      volume: 0.2,
+      volume: 0.22,
       haptic: 8,
       ...custom,
     });
@@ -32,9 +30,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 320,
       endFrequency: 750,
-      duration: 0.06,
-      attack: 0.003,
-      decay: 0.05,
+      duration: 0.09,
       type: 'sine',
       volume: 0.25,
       haptic: 12,
@@ -49,9 +45,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 440,
       endFrequency: 880,
-      duration: 0.05,
-      attack: 0.002,
-      decay: 0.045,
+      duration: 0.08,
       type: 'sine',
       volume: 0.22,
       haptic: 15,
@@ -66,9 +60,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 720,
       endFrequency: 360,
-      duration: 0.05,
-      attack: 0.002,
-      decay: 0.045,
+      duration: 0.08,
       type: 'sine',
       volume: 0.22,
       haptic: 15,
@@ -83,9 +75,7 @@ export class PresetsManager {
     // Play note 1
     this.synth.play({
       frequency: 523.25, // C5
-      duration: 0.08,
-      attack: 0.005,
-      decay: 0.07,
+      duration: 0.1,
       type: 'sine',
       volume: 0.2,
       haptic: [10, 30, 15],
@@ -96,9 +86,7 @@ export class PresetsManager {
     setTimeout(() => {
       this.synth.play({
         frequency: 659.25, // E5
-        duration: 0.12,
-        attack: 0.005,
-        decay: 0.11,
+        duration: 0.14,
         type: 'sine',
         volume: 0.25,
         haptic: false,
@@ -114,9 +102,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 180,
       endFrequency: 110,
-      duration: 0.1,
-      attack: 0.005,
-      decay: 0.09,
+      duration: 0.12,
       type: 'sawtooth',
       volume: 0.18,
       haptic: [20, 20, 20],
@@ -131,9 +117,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 300,
       endFrequency: 1400,
-      duration: 0.08,
-      attack: 0.002,
-      decay: 0.07,
+      duration: 0.1,
       type: 'sine',
       volume: 0.15,
       haptic: 6,
@@ -148,9 +132,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 1800,
       endFrequency: 120,
-      duration: 0.07,
-      attack: 0.001,
-      decay: 0.065,
+      duration: 0.09,
       type: 'sawtooth',
       volume: 0.2,
       haptic: [8, 10, 8],
@@ -165,9 +147,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 140,
       endFrequency: 60,
-      duration: 0.04,
-      attack: 0.001,
-      decay: 0.035,
+      duration: 0.08,
       type: 'triangle',
       volume: 0.3,
       haptic: 15,
@@ -182,9 +162,7 @@ export class PresetsManager {
     this.synth.play({
       frequency: 600,
       endFrequency: 1500,
-      duration: 0.03,
-      attack: 0.001,
-      decay: 0.025,
+      duration: 0.07,
       type: 'triangle',
       volume: 0.18,
       haptic: 5,
@@ -201,9 +179,7 @@ export class PresetsManager {
       setTimeout(() => {
         this.synth.play({
           frequency: freq,
-          duration: 0.08,
-          attack: 0.002,
-          decay: 0.07,
+          duration: 0.1,
           type: 'sine',
           volume: 0.15,
           haptic: idx === 0 ? 10 : false,
