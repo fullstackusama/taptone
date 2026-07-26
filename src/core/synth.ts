@@ -18,7 +18,6 @@ export class SynthEngine {
       this.configure(config);
     }
     this.haptics = new HapticEngine(this.config.hapticsEnabled);
-    this.initAudioContext();
     this.setupGlobalUnlockListener();
   }
 
