@@ -83,12 +83,12 @@ function setupThemeToggle(): void {
   const themeBtn = document.getElementById('toggle-theme')!;
   const themeLabel = document.getElementById('theme-label')!;
 
-  // Read initial saved theme or system preference
-  const savedTheme = localStorage.getItem('taptone_theme') || 'dark';
+  // Read initial saved theme or default to light
+  const savedTheme = localStorage.getItem('taptone_theme') || 'light';
   applyTheme(savedTheme);
 
   themeBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
     applyTheme(nextTheme);
     localStorage.setItem('taptone_theme', nextTheme);
@@ -97,7 +97,7 @@ function setupThemeToggle(): void {
   function applyTheme(theme: string): void {
     document.documentElement.setAttribute('data-theme', theme);
     themeBtn.classList.toggle('active', theme === 'light');
-    themeLabel.textContent = theme === 'dark' ? 'LIGHT THEME' : 'DARK THEME';
+    themeLabel.textContent = theme === 'light' ? 'DARK THEME' : 'LIGHT THEME';
   }
 }
 

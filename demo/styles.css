@@ -126,6 +126,37 @@ body {
   color: var(--accent-cyan);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-github-star {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-github-star:hover {
+  border-color: var(--border-hover);
+  background: var(--hover-bg);
+}
+
+.btn-github-star .star-icon {
+  color: var(--accent-amber);
+}
+
 .command-box {
   display: flex;
   align-items: center;
