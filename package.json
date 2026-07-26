@@ -1,15 +1,15 @@
 {
-  "name": "taptone",
+  "name": "taptones",
   "version": "1.0.0",
   "description": "Ultra-lightweight, zero-dependency synthesized Web Audio & Web Haptics micro-library for web UI feedback with 0KB downloaded audio assets.",
-  "main": "./dist/taptone.umd.js",
-  "module": "./dist/taptone.mjs",
+  "main": "./dist/taptones.umd.js",
+  "module": "./dist/taptones.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/taptone.mjs",
-      "require": "./dist/taptone.umd.js"
+      "import": "./dist/taptones.mjs",
+      "require": "./dist/taptones.umd.js"
     },
     "./react": {
       "types": "./dist/react.d.ts",
@@ -48,14 +48,14 @@
   "bugs": {
     "url": "https://github.com/fullstackusama/taptone/issues"
   },
-  "homepage": "https://github.com/fullstackusama/taptone#readme",
+  "homepage": "https://taptones.vercel.app",
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "^18.2.0",
+    "react": "^18.2.0",
     "typescript": "^5.4.0",
     "vite": "^5.2.0",
-    "vite-plugin-dts": "^3.8.0",
-    "@types/react": "^18.2.0",
-    "react": "^18.2.0"
+    "vite-plugin-dts": "^3.8.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0"

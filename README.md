@@ -1,23 +1,25 @@
-# 🔊 TapTone
+# 🔊 TapTones
 
 > Ultra-lightweight, zero-dependency synthesized Web Audio & Web Haptics micro-library for web UI feedback with **0KB downloaded audio assets**.
 
-[![npm version](https://img.shields.io/npm/v/taptone.svg?color=6366f1&style=flat-square)](https://www.npmjs.com/package/taptone)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/taptone?color=10b981&label=gzipped&style=flat-square)](https://bundlephobia.com/package/taptone)
-[![license](https://img.shields.io/npm/l/taptone.svg?color=06b6d4&style=flat-square)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/taptones.svg?color=6366f1&style=flat-square)](https://www.npmjs.com/package/taptones)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/taptones?color=10b981&label=gzipped&style=flat-square)](https://bundlephobia.com/package/taptones)
+[![license](https://img.shields.io/npm/l/taptones.svg?color=06b6d4&style=flat-square)](LICENSE)
+
+Live Demo: [https://taptones.vercel.app](https://taptones.vercel.app)
 
 ---
 
-## ⚡ Why TapTone?
+## ⚡ Why TapTones?
 
 Traditional UI sound libraries force you to host and download heavy `.mp3` or `.wav` files over the network. They add network latency, fail when offline, and bloat your web application.
 
-**TapTone** generates crisp, physical sound effects and mobile haptics in real-time using the browser's native **Web Audio API** and **Vibration API**.
+**TapTones** generates crisp, physical sound effects and mobile haptics in real-time using the browser's native **Web Audio API** and **Vibration API**.
 
 - 🚀 **0KB Audio Downloads**: Zero external audio files required.
 - 📳 **Built-in Web Haptics**: Paired tactile vibration feedback for mobile devices.
 - ⚡ **Ultra Fast**: Zero latency ($<1\text{ ms}$) sound synthesis directly on the GPU/CPU.
-- 🪶 **Micro Footprint**: Under **2.5 KB** gzipped!
+- 🪶 **Micro Footprint**: Under **2.4 KB** gzipped!
 - ⚛️ **React & Vanilla JS**: Works everywhere (React, Vue, Svelte, Next.js, or plain JS).
 
 ---
@@ -25,11 +27,11 @@ Traditional UI sound libraries force you to host and download heavy `.mp3` or `.
 ## 📦 Installation
 
 ```bash
-npm install taptone
+npm install taptones
 # or
-pnpm add taptone
+pnpm add taptones
 # or
-yarn add taptone
+yarn add taptones
 ```
 
 ---
@@ -39,30 +41,30 @@ yarn add taptone
 ### 1. Vanilla JS / TypeScript
 
 ```typescript
-import { taptone } from 'taptone';
+import { taptones } from 'taptones';
 
 // Play built-in tuned presets
-taptone.click();     // Crisp button click
-taptone.pop();       // Soft bubble pop
-taptone.toggleOn();  // Switch ON pitch step
-taptone.success();   // Dual-tone success chime
-taptone.error();     // Warning low buzz
-taptone.sparkle();   // Ascending shimmer
+taptones.click();     // Crisp button click
+taptones.pop();       // Soft bubble pop
+taptones.toggleOn();  // Switch ON pitch step
+taptones.success();   // Dual-tone success chime
+taptones.error();     // Warning low buzz
+taptones.sparkle();   // Ascending shimmer
 ```
 
-### 2. React / Next.js App Router (`useTapTone`)
+### 2. React / Next.js App Router (`useTapTones`)
 
 > [!TIP]
-> TapTone is 100% SSR-safe. In Next.js App Router (Next.js 13/14/15/16), simply use `'use client'` on components importing UI hooks.
+> TapTones is 100% SSR-safe. In Next.js App Router (Next.js 13/14/15/16), simply use `'use client'` on components importing UI hooks.
 
 ```tsx
 'use client';
 
 import React from 'react';
-import { useTapTone } from 'taptone/react';
+import { useTapTones } from 'taptones/react';
 
 export function ActionButton() {
-  const { click, success } = useTapTone();
+  const { click, success } = useTapTones();
 
   const handleClick = () => {
     click();
@@ -77,11 +79,11 @@ export function ActionButton() {
 ### 3. Vue 3 / Svelte / Remix / Nuxt
 
 ```typescript
-import { taptone } from 'taptone';
+import { taptones } from 'taptones';
 
 // Works seamlessly in all modern frontend frameworks
 function onToggle() {
-  taptone.toggleOn();
+  taptones.toggleOn();
 }
 ```
 
@@ -91,17 +93,17 @@ function onToggle() {
 
 | Method | Waveform | Sound Description | Use Case |
 | :--- | :--- | :--- | :--- |
-| `taptone.click()` | Triangle | Crisp mechanical switch | Primary buttons, links |
-| `taptone.pop()` | Sine | Soft bubble pop | Dropdowns, tooltips, modals |
-| `taptone.toggleOn()` | Sine | Upward pitch step | Dark mode switch, toggles ON |
-| `taptone.toggleOff()` | Sine | Downward pitch step | Switch OFF |
-| `taptone.success()` | Dual Sine | Upbeat two-note chime | Form submit, task complete |
-| `taptone.error()` | Sawtooth | Low warning buzz | Validation errors, warnings |
-| `taptone.slide()` | Sine | Futuristic pitch sweep | Sliders, tabs |
-| `taptone.laser()` | Sawtooth | Arcade zap | Game actions, delete button |
-| `taptone.nudge()` | Triangle | Tactile low thump | Drag & drop snap |
-| `taptone.zip()` | Triangle | Fast micro zip | Segmented control switch |
-| `taptone.sparkle()` | Arpeggio | Ascending shimmer | Achievements, likes, rewards |
+| `taptones.click()` | Triangle | Crisp mechanical switch | Primary buttons, links |
+| `taptones.pop()` | Sine | Soft bubble pop | Dropdowns, tooltips, modals |
+| `taptones.toggleOn()` | Sine | Upward pitch step | Dark mode switch, toggles ON |
+| `taptones.toggleOff()` | Sine | Downward pitch step | Switch OFF |
+| `taptones.success()` | Dual Sine | Upbeat two-note chime | Form submit, task complete |
+| `taptones.error()` | Sawtooth | Low warning buzz | Validation errors, warnings |
+| `taptones.slide()` | Sine | Futuristic pitch sweep | Sliders, tabs |
+| `taptones.laser()` | Sawtooth | Arcade zap | Game actions, delete button |
+| `taptones.nudge()` | Triangle | Tactile low thump | Drag & drop snap |
+| `taptones.zip()` | Triangle | Fast micro zip | Segmented control switch |
+| `taptones.sparkle()` | Arpeggio | Ascending shimmer | Achievements, likes, rewards |
 
 ---
 
@@ -110,9 +112,9 @@ function onToggle() {
 You can design custom micro sound FX dynamically:
 
 ```typescript
-import { taptone } from 'taptone';
+import { taptones } from 'taptones';
 
-taptone.play({
+taptones.play({
   frequency: 800,      // Start pitch in Hz
   endFrequency: 300,   // End pitch for pitch slides
   duration: 0.05,      // Sound duration in seconds
@@ -129,13 +131,13 @@ taptone.play({
 
 ```typescript
 // Mute all audio globally (e.g. user setting preference)
-taptone.configure({ muted: true });
+taptones.configure({ muted: true });
 
 // Toggle haptics globally
-taptone.configure({ hapticsEnabled: false });
+taptones.configure({ hapticsEnabled: false });
 
 // Set master volume multiplier (0.0 to 1.0)
-taptone.configure({ masterVolume: 0.5 });
+taptones.configure({ masterVolume: 0.5 });
 ```
 
 ---

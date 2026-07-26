@@ -1,4 +1,4 @@
-import { SoundOptions, TapToneConfig, WaveformType } from '../types';
+import { SoundOptions, TapTonesConfig, WaveformType } from '../types';
 import { HapticEngine } from './haptics';
 
 export class SynthEngine {
@@ -7,13 +7,14 @@ export class SynthEngine {
   private analyserNode: AnalyserNode | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private haptics: HapticEngine;
-  private config: Required<TapToneConfig> = {
+  private _hasPlayedFirstSound: boolean = false;
+  private config: Required<TapTonesConfig> = {
     masterVolume: 1.0,
     muted: false,
     hapticsEnabled: true,
   };
 
-  constructor(config?: TapToneConfig) {
+  constructor(config?: TapTonesConfig) {
     if (config) {
       this.configure(config);
     }
@@ -21,9 +22,6 @@ export class SynthEngine {
     this.setupGlobalUnlockListener();
   }
 
-  /**
-   * Instantiate AudioContext immediately on page/library load.
-   */
   private initAudioContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
 
@@ -64,16 +62,12 @@ export class SynthEngine {
     return this.analyserNode;
   }
 
-  /**
-   * Safely returns AnalyserNode ONLY if AudioContext is already initialized and running.
-   * Does NOT trigger AudioContext instantiation or resume on background loops.
-   */
   public getExistingAnalyser(): AnalyserNode | null {
     if (!this.ctx || this.ctx.state !== 'running') return null;
     return this.analyserNode;
   }
 
-  public configure(config: TapToneConfig): void {
+  public configure(config: TapTonesConfig): void {
     if (config.masterVolume !== undefined) {
       this.config.masterVolume = Math.max(0, Math.min(1, config.masterVolume));
       if (this.masterGain) {
@@ -89,20 +83,16 @@ export class SynthEngine {
     }
   }
 
-  public getConfig(): Required<TapToneConfig> {
+  public getConfig(): Required<TapTonesConfig> {
     return { ...this.config };
   }
 
-  /**
-   * Play a synthesized sound effect.
-   */
   public play(options: SoundOptions = {}): void {
     if (this.config.muted) return;
 
     const ctx = this.getAudioContext();
     if (!ctx || !this.masterGain) return;
 
-    // Trigger haptics
     const hapticPattern = options.haptic ?? true;
     if (hapticPattern) {
       this.haptics.trigger(hapticPattern);
@@ -123,14 +113,17 @@ export class SynthEngine {
     this.scheduleSound(ctx, options);
   }
 
-  /**
-   * Create and start oscillator / noise nodes.
-   */
   private scheduleSound(ctx: AudioContext, options: SoundOptions): void {
     if (!this.masterGain) return;
     this.masterGain.gain.value = this.config.masterVolume;
 
-    const duration = options.duration ?? 0.08;
+    let duration = options.duration ?? 0.08;
+
+    if (!this._hasPlayedFirstSound) {
+      this._hasPlayedFirstSound = true;
+      duration = Math.max(duration, 0.18);
+    }
+
     let baseFreq = options.frequency ?? 800;
     const endFreq = options.endFrequency;
     const waveType: WaveformType = options.type ?? 'sine';
@@ -214,9 +207,6 @@ export class SynthEngine {
     src.stop(now + duration + 0.01);
   }
 
-  /**
-   * Setup global capture-phase listener to unlock AudioContext on ANY user gesture anywhere on the page.
-   */
   private setupGlobalUnlockListener(): void {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 

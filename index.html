@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TapTone — Synthesized Web Audio & Haptics for Web UI</title>
+  <title>TapTones — Synthesized Web Audio & Haptics for Web UI</title>
   <meta name="description" content="Zero-dependency synthesized micro-sound FX and Web Haptics library for web applications with 0KB downloaded audio assets.">
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,7 @@
               <path d="M18 9v6"></path>
               <path d="M22 11v2"></path>
             </svg>
-            <span>TapTone</span>
+            <span>TapTones</span>
           </h1>
           
           <div class="header-actions">
@@ -47,7 +47,7 @@
 
             <div class="command-box">
               <span class="prompt">$</span>
-              <code>npm install taptone</code>
+              <code>npm install taptones</code>
               <button class="btn-copy-icon" id="copy-install-btn" title="Copy install command">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               </button>
@@ -80,7 +80,7 @@
         <div class="control-actions">
           <button id="toggle-theme" class="btn-toggle" title="Toggle Light/Dark Theme">
             <svg class="toggle-icon theme-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <span id="theme-label">LIGHT THEME</span>
+            <span id="theme-label">DARK THEME</span>
           </button>
           <button id="toggle-mute" class="btn-toggle active">
             <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
@@ -299,9 +299,9 @@
                 <span>COPY CODE</span>
               </button>
             </div>
-            <pre><code id="code-snippet">import { taptone } from 'taptone';
+            <pre><code id="code-snippet">import { taptones } from 'taptones';
 
-taptone.play({
+taptones.play({
   frequency: 800,
   endFrequency: 300,
   duration: 0.05,
@@ -329,18 +329,18 @@ taptone.play({
                 <span>COPY</span>
               </button>
             </div>
-            <pre><code id="code-vanilla">import { taptone } from 'taptone';
+            <pre><code id="code-vanilla">import { taptones } from 'taptones';
 
 // One-liner presets
 document.querySelector('#btn')
   .addEventListener('click', () => {
-    taptone.click();
+    taptones.click();
   });
 
 // Presets
-taptone.pop();
-taptone.success();
-taptone.error();</code></pre>
+taptones.pop();
+taptones.success();
+taptones.error();</code></pre>
           </div>
 
           <div class="code-card">
@@ -353,10 +353,10 @@ taptone.error();</code></pre>
             </div>
             <pre><code id="code-react">'use client';
 
-import { useTapTone } from 'taptone/react';
+import { useTapTones } from 'taptones/react';
 
 export function Button() {
-  const { click, sparkle } = useTapTone();
+  const { click, sparkle } = useTapTones();
 
   return (
     &lt;button onClick={() =&gt; sparkle()}&gt;

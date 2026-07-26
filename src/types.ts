@@ -52,9 +52,9 @@ export type PresetName =
   | 'sparkle';
 
 /**
- * Global configuration options for TapTone instance.
+ * Global configuration options for TapTones instance.
  */
-export interface TapToneConfig {
+export interface TapTonesConfig {
   /** Master volume multiplier (0.0 to 1.0) */
   masterVolume?: number;
 

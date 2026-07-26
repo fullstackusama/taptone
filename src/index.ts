@@ -1,21 +1,21 @@
 import { SynthEngine } from './core/synth';
 import { PresetsManager } from './presets';
-import { SoundOptions, TapToneConfig } from './types';
+import { SoundOptions, TapTonesConfig } from './types';
 
 export * from './types';
 export { SynthEngine } from './core/synth';
 export { HapticEngine } from './core/haptics';
 export { PresetsManager } from './presets';
-export { useTapTone } from './react';
+export { useTapTones, useTapTone } from './react';
 
 /**
- * Main TapTone class unifying synthesizer engine & sound presets.
+ * Main TapTones class unifying synthesizer engine & sound presets.
  */
-export class TapTone {
+export class TapTones {
   public synth: SynthEngine;
   private presets: PresetsManager;
 
-  constructor(config?: TapToneConfig) {
+  constructor(config?: TapTonesConfig) {
     this.synth = new SynthEngine(config);
     this.presets = new PresetsManager(this.synth);
   }
@@ -26,12 +26,12 @@ export class TapTone {
   }
 
   /** Update global configurations */
-  public configure(config: TapToneConfig): void {
+  public configure(config: TapTonesConfig): void {
     this.synth.configure(config);
   }
 
   /** Get current global configurations */
-  public getConfig(): Required<TapToneConfig> {
+  public getConfig(): Required<TapTonesConfig> {
     return this.synth.getConfig();
   }
 
@@ -92,18 +92,19 @@ export class TapTone {
 }
 
 /**
- * Default singleton instance of TapTone for quick import and use.
+ * Default singleton instance of TapTones for quick import and use.
  * @example
- * import { taptone } from 'taptone';
- * taptone.click();
+ * import { taptones } from 'taptones';
+ * taptones.click();
  */
-export const taptone = new TapTone();
+export const taptones = new TapTones();
+export const taptone = taptones;
 
 /**
- * Factory function to create custom TapTone instances with isolated configs.
+ * Factory function to create custom TapTones instances with isolated configs.
  */
-export function createTapTone(config?: TapToneConfig): TapTone {
-  return new TapTone(config);
+export function createTapTones(config?: TapTonesConfig): TapTones {
+  return new TapTones(config);
 }
 
-export default taptone;
+export default taptones;

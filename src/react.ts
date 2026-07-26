@@ -1,47 +1,47 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { SoundOptions, TapToneConfig } from './types';
-import { taptone } from './index';
+import { SoundOptions, TapTonesConfig } from './types';
+import { taptones } from './index';
 
 /**
- * Custom React Hook for TapTone audio & haptic FX.
+ * Custom React Hook for TapTones audio & haptic FX.
  */
-export function useTapTone(defaultOptions?: SoundOptions) {
+export function useTapTones(defaultOptions?: SoundOptions) {
   const play = useCallback(
     (options?: SoundOptions) => {
-      taptone.play({ ...defaultOptions, ...options });
+      taptones.play({ ...defaultOptions, ...options });
     },
     [defaultOptions]
   );
 
   const presets = useMemo(
     () => ({
-      click: (opts?: SoundOptions) => taptone.click(opts),
-      pop: (opts?: SoundOptions) => taptone.pop(opts),
-      toggleOn: (opts?: SoundOptions) => taptone.toggleOn(opts),
-      toggleOff: (opts?: SoundOptions) => taptone.toggleOff(opts),
-      success: (opts?: SoundOptions) => taptone.success(opts),
-      error: (opts?: SoundOptions) => taptone.error(opts),
-      slide: (opts?: SoundOptions) => taptone.slide(opts),
-      laser: (opts?: SoundOptions) => taptone.laser(opts),
-      nudge: (opts?: SoundOptions) => taptone.nudge(opts),
-      zip: (opts?: SoundOptions) => taptone.zip(opts),
-      sparkle: (opts?: SoundOptions) => taptone.sparkle(opts),
+      click: (opts?: SoundOptions) => taptones.click(opts),
+      pop: (opts?: SoundOptions) => taptones.pop(opts),
+      toggleOn: (opts?: SoundOptions) => taptones.toggleOn(opts),
+      toggleOff: (opts?: SoundOptions) => taptones.toggleOff(opts),
+      success: (opts?: SoundOptions) => taptones.success(opts),
+      error: (opts?: SoundOptions) => taptones.error(opts),
+      slide: (opts?: SoundOptions) => taptones.slide(opts),
+      laser: (opts?: SoundOptions) => taptones.laser(opts),
+      nudge: (opts?: SoundOptions) => taptones.nudge(opts),
+      zip: (opts?: SoundOptions) => taptones.zip(opts),
+      sparkle: (opts?: SoundOptions) => taptones.sparkle(opts),
     }),
     []
   );
 
-  const configure = useCallback((config: TapToneConfig) => {
-    taptone.configure(config);
+  const configure = useCallback((config: TapTonesConfig) => {
+    taptones.configure(config);
   }, []);
 
   const setMuted = useCallback((muted: boolean) => {
-    taptone.configure({ muted });
+    taptones.configure({ muted });
   }, []);
 
   const setMasterVolume = useCallback((masterVolume: number) => {
-    taptone.configure({ masterVolume });
+    taptones.configure({ masterVolume });
   }, []);
 
   return {
@@ -50,6 +50,8 @@ export function useTapTone(defaultOptions?: SoundOptions) {
     configure,
     setMuted,
     setMasterVolume,
-    taptone,
+    taptones,
   };
 }
+
+export const useTapTone = useTapTones;

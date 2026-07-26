@@ -8,8 +8,8 @@ export default defineConfig(({ mode }) => {
         outDir: 'dist',
         lib: {
           entry: resolve(__dirname, 'src/index.ts'),
-          name: 'TapTone',
-          fileName: (format) => `taptone.${format === 'es' ? 'mjs' : 'umd.js'}`,
+          name: 'TapTones',
+          fileName: (format) => `taptones.${format === 'es' ? 'mjs' : 'umd.js'}`,
         },
         rollupOptions: {
           external: ['react', 'react-dom'],

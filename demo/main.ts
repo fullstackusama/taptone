@@ -1,4 +1,4 @@
-import { taptone, WaveformType, SoundOptions } from '../src/index';
+import { taptones, WaveformType, SoundOptions } from '../src/index';
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,17 +26,17 @@ function setupPresetPads(): void {
       if (!soundName) return;
 
       switch (soundName) {
-        case 'click': taptone.click(); break;
-        case 'pop': taptone.pop(); break;
-        case 'toggleOn': taptone.toggleOn(); break;
-        case 'toggleOff': taptone.toggleOff(); break;
-        case 'success': taptone.success(); break;
-        case 'error': taptone.error(); break;
-        case 'slide': taptone.slide(); break;
-        case 'laser': taptone.laser(); break;
-        case 'nudge': taptone.nudge(); break;
-        case 'zip': taptone.zip(); break;
-        case 'sparkle': taptone.sparkle(); break;
+        case 'click': taptones.click(); break;
+        case 'pop': taptones.pop(); break;
+        case 'toggleOn': taptones.toggleOn(); break;
+        case 'toggleOff': taptones.toggleOff(); break;
+        case 'success': taptones.success(); break;
+        case 'error': taptones.error(); break;
+        case 'slide': taptones.slide(); break;
+        case 'laser': taptones.laser(); break;
+        case 'nudge': taptones.nudge(); break;
+        case 'zip': taptones.zip(); break;
+        case 'sparkle': taptones.sparkle(); break;
       }
     });
   });
@@ -55,14 +55,14 @@ function setupMasterControls(): void {
 
   volSlider.addEventListener('input', () => {
     const val = parseFloat(volSlider.value);
-    taptone.configure({ masterVolume: val });
+    taptones.configure({ masterVolume: val });
     volLabel.textContent = `${Math.round(val * 100)}%`;
   });
 
   let muted = false;
   toggleMute.addEventListener('click', () => {
     muted = !muted;
-    taptone.configure({ muted });
+    taptones.configure({ muted });
     toggleMute.classList.toggle('active', !muted);
     muteLabel.textContent = muted ? 'Muted' : 'AUDIO ON';
   });
@@ -70,7 +70,7 @@ function setupMasterControls(): void {
   let hapticsEnabled = true;
   toggleHaptics.addEventListener('click', () => {
     hapticsEnabled = !hapticsEnabled;
-    taptone.configure({ hapticsEnabled });
+    taptones.configure({ hapticsEnabled });
     toggleHaptics.classList.toggle('active', hapticsEnabled);
     hapticLabel.textContent = hapticsEnabled ? 'HAPTICS ON' : 'HAPTICS OFF';
   });
@@ -156,7 +156,7 @@ function setupSynthesizerLab(): void {
       haptic: parseInt(hapticInput.value, 10),
       jitter: parseFloat(jitterInput.value),
     };
-    taptone.play(opts);
+    taptones.play(opts);
   });
 }
 
@@ -169,9 +169,9 @@ function updateLabCode(): void {
   const jitter = (document.getElementById('param-jitter') as HTMLInputElement).value;
   const codeEl = document.getElementById('code-snippet')!;
 
-  codeEl.textContent = `import { taptone } from 'taptone';
+  codeEl.textContent = `import { taptones } from 'taptones';
 
-taptone.play({
+taptones.play({
   frequency: ${freq},
   endFrequency: ${endFreq},
   duration: ${duration},
@@ -190,8 +190,8 @@ function setupCopyButtons(): void {
   const copyExBtns = document.querySelectorAll<HTMLButtonElement>('.copy-ex-btn');
 
   copyInstallBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText('npm install taptone');
-    showToast('Copied "npm install taptone" to clipboard!');
+    navigator.clipboard.writeText('npm install taptones');
+    showToast('Copied "npm install taptones" to clipboard!');
   });
 
   copyCodeBtn.addEventListener('click', () => {
@@ -237,7 +237,7 @@ function startSpectrumVisualizer(): void {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const analyser = taptone.getExistingAnalyser();
+    const analyser = taptones.getExistingAnalyser();
     if (!analyser) {
       drawIdleLine(ctx, canvas.width, canvas.height);
       return;
