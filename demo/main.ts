@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * 1. Preset Pads Event Bindings
+ * We use 'pointerdown' instead of 'click' because:
+ * - pointerdown fires IMMEDIATELY on press (click waits for release)
+ * - pointerdown IS a trusted user gesture that can resume AudioContext
+ * - This makes audio feel instant and responsive
  */
 function setupPresetPads(): void {
   const pads = document.querySelectorAll<HTMLButtonElement>('.sound-pad');
   pads.forEach((pad) => {
-    // Unlock AudioContext on pointerdown (fires ~30ms before click event)
-    pad.addEventListener('pointerdown', () => {
-      taptone.synth.getAudioContext();
-    }, { passive: true });
-
-    pad.addEventListener('click', () => {
+    pad.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
       const soundName = pad.dataset.sound;
       if (!soundName) return;
 
@@ -121,7 +121,8 @@ function setupSynthesizerLab(): void {
     });
   });
 
-  playBtn.addEventListener('click', () => {
+  playBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
     const opts: SoundOptions = {
       frequency: parseFloat(freqInput.value),
       endFrequency: parseFloat(endFreqInput.value),
