@@ -7,6 +7,7 @@ export class SynthEngine {
   private analyserNode: AnalyserNode | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private haptics: HapticEngine;
+  private _hasPlayedFirstSound: boolean = false;
   private config: Required<TapToneConfig> = {
     masterVolume: 1.0,
     muted: false,
@@ -118,11 +119,17 @@ export class SynthEngine {
    */
   private scheduleSound(ctx: AudioContext, options: SoundOptions): void {
     if (!this.masterGain) return;
+
+    // Re-verify master gain
     this.masterGain.gain.value = this.config.masterVolume;
 
-    // If context just resumed (currentTime < 0.1), ensure duration is at least 0.12s to cover wake latency!
-    const requestedDuration = options.duration ?? 0.08;
-    const duration = ctx.currentTime < 0.1 ? Math.max(requestedDuration, 0.12) : requestedDuration;
+    let duration = options.duration ?? 0.08;
+
+    // On very first sound after page load, boost duration to 0.18s to guarantee audibility over browser audio wake latency!
+    if (!this._hasPlayedFirstSound) {
+      this._hasPlayedFirstSound = true;
+      duration = Math.max(duration, 0.18);
+    }
 
     let baseFreq = options.frequency ?? 800;
     const endFreq = options.endFrequency;
