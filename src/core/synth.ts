@@ -154,13 +154,14 @@ export class SynthEngine {
 
     // Pitch slide transition
     if (endFreq !== undefined && endFreq !== baseFreq) {
-      osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), now + duration);
+      osc.frequency.setValueAtTime(Math.max(20, baseFreq), now);
+      osc.frequency.linearRampToValueAtTime(Math.max(20, endFreq), now + duration);
     }
 
-    // Gain Envelope (ADSR)
+    // Gain Envelope (Linear Ramping is 100% reliable on 1st AudioContext resume tick)
     gainNode.gain.setValueAtTime(0.0001, now);
-    gainNode.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume), now + attack);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
+    gainNode.gain.linearRampToValueAtTime(volume, now + attack);
+    gainNode.gain.linearRampToValueAtTime(0.0001, now + attack + decay);
 
     osc.connect(gainNode);
     gainNode.connect(this.masterGain);
@@ -203,8 +204,8 @@ export class SynthEngine {
     noiseSource.buffer = this.noiseBuffer;
 
     gainNode.gain.setValueAtTime(0.0001, now);
-    gainNode.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume), now + attack);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
+    gainNode.gain.linearRampToValueAtTime(volume, now + attack);
+    gainNode.gain.linearRampToValueAtTime(0.0001, now + attack + decay);
 
     noiseSource.connect(filter);
     filter.connect(gainNode);
@@ -227,7 +228,7 @@ export class SynthEngine {
   }
 
   /**
-   * Resume AudioContext automatically on first user gesture.
+   * Resume AudioContext automatically on first user gesture (capture phase).
    */
   private setupUserGestureListener(): void {
     if (typeof window === 'undefined') return;
@@ -239,10 +240,10 @@ export class SynthEngine {
       }
     };
 
-    window.addEventListener('pointerdown', unlock, { passive: true });
-    window.addEventListener('mousedown', unlock, { passive: true });
-    window.addEventListener('touchstart', unlock, { passive: true });
-    window.addEventListener('click', unlock, { passive: true });
-    window.addEventListener('keydown', unlock, { passive: true });
+    // Use capture: true so window unlocks AudioContext before button click handlers fire!
+    window.addEventListener('pointerdown', unlock, { capture: true, passive: true });
+    window.addEventListener('mousedown', unlock, { capture: true, passive: true });
+    window.addEventListener('touchstart', unlock, { capture: true, passive: true });
+    window.addEventListener('keydown', unlock, { capture: true, passive: true });
   }
 }
