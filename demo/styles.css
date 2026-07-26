@@ -133,7 +133,7 @@ body {
   flex-wrap: wrap;
 }
 
-.btn-github-star {
+.btn-header-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -148,13 +148,17 @@ body {
   transition: all 0.15s ease;
 }
 
-.btn-github-star:hover {
+.btn-header-link:hover {
   border-color: var(--border-hover);
   background: var(--hover-bg);
 }
 
-.btn-github-star .star-icon {
+.btn-header-link .star-icon {
   color: var(--accent-amber);
+}
+
+.btn-npm svg {
+  color: var(--accent-red);
 }
 
 .command-box {
