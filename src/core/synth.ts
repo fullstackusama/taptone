@@ -7,6 +7,8 @@ export class SynthEngine {
   private analyserNode: AnalyserNode | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private haptics: HapticEngine;
+  private _unlocked: boolean = false;
+  private _pendingPlays: SoundOptions[] = [];
   private config: Required<TapToneConfig> = {
     masterVolume: 1.0,
     muted: false,
@@ -27,8 +29,8 @@ export class SynthEngine {
   public configure(config: TapToneConfig): void {
     if (config.masterVolume !== undefined) {
       this.config.masterVolume = Math.max(0, Math.min(1, config.masterVolume));
-      if (this.masterGain && this.ctx) {
-        this.masterGain.gain.setValueAtTime(this.config.masterVolume, this.ctx.currentTime);
+      if (this.masterGain) {
+        this.masterGain.gain.value = this.config.masterVolume;
       }
     }
     if (config.muted !== undefined) {
@@ -48,9 +50,9 @@ export class SynthEngine {
   }
 
   /**
-   * Lazy-initialize AudioContext safely.
+   * Initialize AudioContext (does NOT resume — that requires user gesture).
    */
-  public getAudioContext(): AudioContext | null {
+  private ensureContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
 
     if (!this.ctx) {
@@ -69,19 +71,53 @@ export class SynthEngine {
       this.analyserNode.connect(this.ctx.destination);
     }
 
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
-    }
-
     return this.ctx;
+  }
+
+  /**
+   * Public accessor for AudioContext (also triggers resume).
+   */
+  public getAudioContext(): AudioContext | null {
+    const ctx = this.ensureContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    return ctx;
   }
 
   /**
    * Get AnalyserNode for audio visualization.
    */
   public getAnalyserNode(): AnalyserNode | null {
-    this.getAudioContext();
+    this.ensureContext();
     return this.analyserNode;
+  }
+
+  /**
+   * Unlock the audio pipeline by playing a silent buffer.
+   * This forces the browser's audio rendering thread to fully activate.
+   * Returns a promise that resolves once audio is truly ready.
+   */
+  private unlock(ctx: AudioContext): Promise<void> {
+    if (this._unlocked && ctx.state === 'running') {
+      return Promise.resolve();
+    }
+
+    return ctx.resume().then(() => {
+      return new Promise<void>((resolve) => {
+        // Play a tiny silent buffer to force audio pipeline open
+        const silentBuffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+        const source = ctx.createBufferSource();
+        source.buffer = silentBuffer;
+        source.connect(ctx.destination);
+        source.onended = () => {
+          source.disconnect();
+          this._unlocked = true;
+          resolve();
+        };
+        source.start(0);
+      });
+    });
   }
 
   /**
@@ -90,35 +126,37 @@ export class SynthEngine {
   public play(options: SoundOptions = {}): void {
     if (this.config.muted) return;
 
-    const ctx = this.getAudioContext();
+    const ctx = this.ensureContext();
     if (!ctx || !this.masterGain) return;
 
-    // Ensure master gain is always active
-    this.masterGain.gain.value = this.config.masterVolume;
-
-    // If context is suspended (first click), resume first then play sound!
-    if (ctx.state === 'suspended') {
-      ctx
-        .resume()
-        .then(() => {
-          this.playNode(ctx, options);
-        })
-        .catch(() => {
-          this.playNode(ctx, options);
-        });
+    // Already unlocked and running — play immediately
+    if (this._unlocked && ctx.state === 'running') {
+      this.playNode(ctx, options);
       return;
     }
 
-    this.playNode(ctx, options);
+    // First interaction: unlock pipeline, then play the sound
+    // Also store the options so haptic feedback fires
+    if (options.haptic !== false) {
+      this.haptics.trigger(options.haptic ?? true);
+    }
+
+    this.unlock(ctx).then(() => {
+      this.playNode(ctx, options);
+      // Flush any other pending plays that accumulated during unlock
+      while (this._pendingPlays.length > 0) {
+        const pending = this._pendingPlays.shift()!;
+        this.playNode(ctx, pending);
+      }
+    });
   }
 
   /**
-   * Internal sound node generator executed when AudioContext is running.
+   * Internal: create and start audio nodes. Only call when ctx is running.
    */
   private playNode(ctx: AudioContext, options: SoundOptions): void {
     if (!this.masterGain) return;
 
-    // Re-verify master gain
     this.masterGain.gain.value = this.config.masterVolume;
 
     const duration = options.duration ?? 0.04;
@@ -128,67 +166,62 @@ export class SynthEngine {
     const volume = (options.volume ?? 0.25) * this.config.masterVolume;
     const hapticPattern = options.haptic ?? true;
 
-    // Apply pitch jitter if provided
+    // Apply pitch jitter
     if (options.jitter && options.jitter > 0) {
       const jitterRange = options.jitter * baseFreq;
       baseFreq += (Math.random() * 2 - 1) * jitterRange;
     }
 
-    // Use current AudioContext time
     const now = ctx.currentTime;
 
-    // Trigger paired haptic vibration
-    if (hapticPattern) {
+    // Trigger haptics (skip if already triggered during unlock path)
+    if (this._unlocked && hapticPattern) {
       this.haptics.trigger(hapticPattern);
     }
 
-    // Handle Noise buffer (for crisp tactile clicks)
+    // Noise synthesis
     if (waveType === 'noise') {
       this.playNoise(ctx, now, duration, volume);
       return;
     }
 
-    // Standard Oscillator synthesis
+    // Oscillator synthesis
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
 
     osc.type = waveType;
-    osc.frequency.setValueAtTime(Math.max(20, baseFreq), now);
+    osc.frequency.value = Math.max(20, baseFreq);
 
-    // Pitch slide transition
+    // Pitch slide
     if (endFreq !== undefined && endFreq !== baseFreq) {
       osc.frequency.setValueAtTime(Math.max(20, baseFreq), now);
       osc.frequency.linearRampToValueAtTime(Math.max(20, endFreq), now + duration);
     }
 
-    // Direct Gain Assignment + Decay Ramp Down (100% audible on 1st click)
+    // Gain envelope — use .value for instant start, ramp for decay
+    gainNode.gain.value = volume;
     gainNode.gain.setValueAtTime(volume, now);
     gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
 
     osc.connect(gainNode);
     gainNode.connect(this.masterGain);
 
-    const stopTime = now + duration + 0.01;
+    const stopTime = now + duration + 0.02;
 
     osc.onended = () => {
-      try {
-        osc.disconnect();
-        gainNode.disconnect();
-      } catch {
-        // Ignore disconnect errors
-      }
+      try { osc.disconnect(); gainNode.disconnect(); } catch { /* */ }
     };
 
-    osc.start(now);
+    osc.start(0); // start immediately, not at scheduled 'now'
     osc.stop(stopTime);
   }
 
   /**
-   * Helper to synthesize white noise buffer for tactile micro clicks.
+   * Noise synthesis for tactile micro clicks.
    */
   private playNoise(ctx: AudioContext, now: number, duration: number, volume: number): void {
     if (!this.noiseBuffer) {
-      const bufferSize = ctx.sampleRate * 0.5; // 0.5 seconds of noise
+      const bufferSize = ctx.sampleRate * 0.5;
       this.noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = this.noiseBuffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -201,10 +234,10 @@ export class SynthEngine {
     const filter = ctx.createBiquadFilter();
 
     filter.type = 'highpass';
-    filter.frequency.setValueAtTime(1000, now);
-
+    filter.frequency.value = 1000;
     noiseSource.buffer = this.noiseBuffer;
 
+    gainNode.gain.value = volume;
     gainNode.gain.setValueAtTime(volume, now);
     gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
 
@@ -212,39 +245,32 @@ export class SynthEngine {
     filter.connect(gainNode);
     gainNode.connect(this.masterGain!);
 
-    const stopTime = now + duration + 0.01;
+    const stopTime = now + duration + 0.02;
 
     noiseSource.onended = () => {
-      try {
-        noiseSource.disconnect();
-        filter.disconnect();
-        gainNode.disconnect();
-      } catch {
-        // Ignore disconnect errors
-      }
+      try { noiseSource.disconnect(); filter.disconnect(); gainNode.disconnect(); } catch { /* */ }
     };
 
-    noiseSource.start(now);
+    noiseSource.start(0);
     noiseSource.stop(stopTime);
   }
 
   /**
-   * Resume AudioContext automatically on first user gesture (capture phase).
+   * Setup capture-phase listeners to unlock AudioContext on first user gesture.
    */
   private setupUserGestureListener(): void {
     if (typeof window === 'undefined') return;
 
-    const unlock = () => {
-      const ctx = this.getAudioContext();
-      if (ctx && ctx.state === 'suspended') {
-        ctx.resume().catch(() => {});
+    const onGesture = () => {
+      const ctx = this.ensureContext();
+      if (ctx && !this._unlocked) {
+        this.unlock(ctx).catch(() => {});
       }
     };
 
-    // Use capture: true so window unlocks AudioContext before button click handlers fire!
-    window.addEventListener('pointerdown', unlock, { capture: true, passive: true });
-    window.addEventListener('mousedown', unlock, { capture: true, passive: true });
-    window.addEventListener('touchstart', unlock, { capture: true, passive: true });
-    window.addEventListener('keydown', unlock, { capture: true, passive: true });
+    // Capture phase fires before any button click handlers
+    window.addEventListener('pointerdown', onGesture, { capture: true, passive: true });
+    window.addEventListener('mousedown', onGesture, { capture: true, passive: true });
+    window.addEventListener('touchstart', onGesture, { capture: true, passive: true });
   }
 }
