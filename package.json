@@ -1,6 +1,6 @@
 {
   "name": "taptones",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ultra-lightweight, zero-dependency synthesized Web Audio & Web Haptics micro-library for web UI feedback with 0KB downloaded audio assets.",
   "main": "./dist/taptones.umd.js",
   "module": "./dist/taptones.mjs",
