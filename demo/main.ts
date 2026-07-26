@@ -3,6 +3,7 @@ import { taptones, WaveformType, SoundOptions } from '../src/index';
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
   setupPresetPads();
+  setupCategoryTabs();
   setupMasterControls();
   setupSynthesizerLab();
   setupCopyButtons();
@@ -11,11 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 1. Preset Pads Event Bindings
- * We use 'pointerdown' instead of 'click' because:
- * - pointerdown fires IMMEDIATELY on press (click waits for release)
- * - pointerdown IS a trusted user gesture that can resume AudioContext
- * - This makes audio feel instant and responsive
+ * 1. Preset Pads Event Bindings for all 22 Presets
  */
 function setupPresetPads(): void {
   const pads = document.querySelectorAll<HTMLButtonElement>('.sound-pad');
@@ -28,16 +25,53 @@ function setupPresetPads(): void {
       switch (soundName) {
         case 'click': taptones.click(); break;
         case 'pop': taptones.pop(); break;
+        case 'tap': taptones.tap(); break;
+        case 'press': taptones.press(); break;
+        case 'release': taptones.release(); break;
+        case 'select': taptones.select(); break;
         case 'toggleOn': taptones.toggleOn(); break;
         case 'toggleOff': taptones.toggleOff(); break;
+        case 'switchFlip': taptones.switchFlip(); break;
+        case 'slide': taptones.slide(); break;
         case 'success': taptones.success(); break;
         case 'error': taptones.error(); break;
-        case 'slide': taptones.slide(); break;
+        case 'warning': taptones.warning(); break;
+        case 'info': taptones.info(); break;
+        case 'notification': taptones.notification(); break;
         case 'laser': taptones.laser(); break;
         case 'nudge': taptones.nudge(); break;
         case 'zip': taptones.zip(); break;
         case 'sparkle': taptones.sparkle(); break;
+        case 'coin': taptones.coin(); break;
+        case 'powerUp': taptones.powerUp(); break;
+        case 'delete': taptones.delete(); break;
       }
+    });
+  });
+}
+
+/**
+ * Category Tabs Filter (ALL, UI, TOGGLES, FEEDBACK, ACTIONS)
+ */
+function setupCategoryTabs(): void {
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.cat-tab');
+  const pads = document.querySelectorAll<HTMLButtonElement>('.sound-pad');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const selectedCat = tab.dataset.category || 'all';
+
+      pads.forEach((pad) => {
+        const padCat = pad.dataset.category;
+        if (selectedCat === 'all' || padCat === selectedCat) {
+          pad.classList.remove('hidden');
+        } else {
+          pad.classList.add('hidden');
+        }
+      });
     });
   });
 }
@@ -83,7 +117,6 @@ function setupThemeToggle(): void {
   const themeBtn = document.getElementById('toggle-theme')!;
   const themeLabel = document.getElementById('theme-label')!;
 
-  // Read initial saved theme or default to light
   const savedTheme = localStorage.getItem('taptone_theme') || 'light';
   applyTheme(savedTheme);
 

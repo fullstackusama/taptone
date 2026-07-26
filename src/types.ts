@@ -41,15 +41,26 @@ export interface SoundOptions {
 export type PresetName =
   | 'click'
   | 'pop'
+  | 'tap'
+  | 'press'
+  | 'release'
+  | 'select'
   | 'toggleOn'
   | 'toggleOff'
+  | 'switchFlip'
+  | 'slide'
   | 'success'
   | 'error'
-  | 'slide'
+  | 'warning'
+  | 'info'
+  | 'notification'
   | 'laser'
   | 'nudge'
   | 'zip'
-  | 'sparkle';
+  | 'sparkle'
+  | 'coin'
+  | 'powerUp'
+  | 'delete';
 
 /**
  * Global configuration options for TapTones instance.

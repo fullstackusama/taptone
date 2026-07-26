@@ -100,120 +100,223 @@
 
       <!-- Sound Presets Matrix -->
       <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">PRESETS MATRIX</h2>
-          <span class="section-subtitle">Click square pads to trigger synthesized sound &amp; vibration</span>
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title">PRESETS MATRIX</h2>
+            <span class="section-subtitle">Click square pads to trigger synthesized sound &amp; vibration</span>
+          </div>
+
+          <!-- Category Filter Tabs -->
+          <div class="category-tabs">
+            <button class="cat-tab active" data-category="all">ALL (22)</button>
+            <button class="cat-tab" data-category="ui">UI &amp; BUTTONS</button>
+            <button class="cat-tab" data-category="toggles">TOGGLES &amp; SWITCHES</button>
+            <button class="cat-tab" data-category="feedback">FEEDBACK &amp; STATUS</button>
+            <button class="cat-tab" data-category="actions">ACTIONS &amp; GAMING</button>
+          </div>
         </div>
 
-        <div class="presets-grid">
-          <!-- Click -->
-          <button class="sound-pad" data-sound="click">
+        <div class="presets-grid" id="presets-grid">
+          <!-- UI & BUTTONS -->
+          <button class="sound-pad" data-sound="click" data-category="ui">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path></svg>
               <span class="pad-tag">TRIANGLE</span>
             </div>
             <span class="pad-name">Click</span>
             <span class="pad-desc">Mechanical button click</span>
           </button>
 
-          <!-- Pop -->
-          <button class="sound-pad" data-sound="pop">
+          <button class="sound-pad" data-sound="pop" data-category="ui">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle></svg>
               <span class="pad-tag">SINE</span>
             </div>
             <span class="pad-name">Pop</span>
             <span class="pad-desc">Dropdowns &amp; tooltips</span>
           </button>
 
-          <!-- Toggle ON -->
-          <button class="sound-pad" data-sound="toggleOn">
+          <button class="sound-pad" data-sound="tap" data-category="ui">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg>
+              <span class="pad-tag">TACTILE</span>
+            </div>
+            <span class="pad-name">Tap</span>
+            <span class="pad-desc">Glass screen tap</span>
+          </button>
+
+          <button class="sound-pad" data-sound="press" data-category="ui">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"></polyline></svg>
+              <span class="pad-tag">DOWN</span>
+            </div>
+            <span class="pad-name">Press</span>
+            <span class="pad-desc">Soft button press down</span>
+          </button>
+
+          <button class="sound-pad" data-sound="release" data-category="ui">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"></polyline></svg>
+              <span class="pad-tag">UP</span>
+            </div>
+            <span class="pad-name">Release</span>
+            <span class="pad-desc">Soft button release up</span>
+          </button>
+
+          <button class="sound-pad" data-sound="select" data-category="ui">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 12 12 14 14"></polyline></svg>
+              <span class="pad-tag">CHIME</span>
+            </div>
+            <span class="pad-name">Select</span>
+            <span class="pad-desc">Clean item selection</span>
+          </button>
+
+          <!-- TOGGLES & SWITCHES -->
+          <button class="sound-pad" data-sound="toggleOn" data-category="toggles">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
               <span class="pad-tag">RISING</span>
             </div>
             <span class="pad-name">Toggle ON</span>
             <span class="pad-desc">Switch ON pitch step</span>
           </button>
 
-          <!-- Toggle OFF -->
-          <button class="sound-pad" data-sound="toggleOff">
+          <button class="sound-pad" data-sound="toggleOff" data-category="toggles">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
               <span class="pad-tag">FALLING</span>
             </div>
             <span class="pad-name">Toggle OFF</span>
             <span class="pad-desc">Switch OFF pitch step</span>
           </button>
 
-          <!-- Success -->
-          <button class="sound-pad accent-green" data-sound="success">
+          <button class="sound-pad" data-sound="switchFlip" data-category="toggles">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span class="pad-tag">CHIME</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect><circle cx="16" cy="12" r="3"></circle></svg>
+              <span class="pad-tag">SQUARE</span>
             </div>
-            <span class="pad-name">Success</span>
-            <span class="pad-desc">Task completion chime</span>
+            <span class="pad-name">Switch Flip</span>
+            <span class="pad-desc">Mechanical switch flip</span>
           </button>
 
-          <!-- Error -->
-          <button class="sound-pad accent-red" data-sound="error">
+          <button class="sound-pad" data-sound="slide" data-category="toggles">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span class="pad-tag">BUZZ</span>
-            </div>
-            <span class="pad-name">Error</span>
-            <span class="pad-desc">Validation error warning</span>
-          </button>
-
-          <!-- Slide -->
-          <button class="sound-pad" data-sound="slide">
-            <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="20" y1="21" x2="20" y2="16"></line></svg>
               <span class="pad-tag">SWEEP</span>
             </div>
             <span class="pad-name">Slide</span>
             <span class="pad-desc">Slider &amp; tab pitch sweep</span>
           </button>
 
-          <!-- Laser -->
-          <button class="sound-pad accent-cyan" data-sound="laser">
+          <!-- FEEDBACK & STATUS -->
+          <button class="sound-pad accent-green" data-sound="success" data-category="feedback">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="pad-tag">CHIME</span>
+            </div>
+            <span class="pad-name">Success</span>
+            <span class="pad-desc">Task completion chime</span>
+          </button>
+
+          <button class="sound-pad accent-red" data-sound="error" data-category="feedback">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+              <span class="pad-tag">BUZZ</span>
+            </div>
+            <span class="pad-name">Error</span>
+            <span class="pad-desc">Validation error warning</span>
+          </button>
+
+          <button class="sound-pad accent-amber" data-sound="warning" data-category="feedback">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              <span class="pad-tag">PULSE</span>
+            </div>
+            <span class="pad-name">Warning</span>
+            <span class="pad-desc">Double-pulse caution</span>
+          </button>
+
+          <button class="sound-pad accent-cyan" data-sound="info" data-category="feedback">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span class="pad-tag">INFO</span>
+            </div>
+            <span class="pad-name">Info</span>
+            <span class="pad-desc">Friendly info chime</span>
+          </button>
+
+          <button class="sound-pad accent-cyan" data-sound="notification" data-category="feedback">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="pad-tag">BELL</span>
+            </div>
+            <span class="pad-name">Notification</span>
+            <span class="pad-desc">Soft dual-tone bell</span>
+          </button>
+
+          <!-- ACTIONS & GAMING -->
+          <button class="sound-pad accent-cyan" data-sound="laser" data-category="actions">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
               <span class="pad-tag">ZAP</span>
             </div>
             <span class="pad-name">Laser</span>
             <span class="pad-desc">Arcade action zap</span>
           </button>
 
-          <!-- Nudge -->
-          <button class="sound-pad" data-sound="nudge">
+          <button class="sound-pad" data-sound="nudge" data-category="actions">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle></svg>
               <span class="pad-tag">THUMP</span>
             </div>
             <span class="pad-name">Nudge</span>
             <span class="pad-desc">Tactile drag snap</span>
           </button>
 
-          <!-- Zip -->
-          <button class="sound-pad" data-sound="zip">
+          <button class="sound-pad" data-sound="zip" data-category="actions">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
               <span class="pad-tag">FAST</span>
             </div>
             <span class="pad-name">Zip</span>
             <span class="pad-desc">Fast micro zip switch</span>
           </button>
 
-          <!-- Sparkle -->
-          <button class="sound-pad accent-amber" data-sound="sparkle">
+          <button class="sound-pad accent-amber" data-sound="sparkle" data-category="actions">
             <div class="pad-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
               <span class="pad-tag">SHIMMER</span>
             </div>
             <span class="pad-name">Sparkle</span>
             <span class="pad-desc">Ascending shimmer tone</span>
+          </button>
+
+          <button class="sound-pad accent-amber" data-sound="coin" data-category="actions">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v10M15 9h-4a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H9"></path></svg>
+              <span class="pad-tag">PICKUP</span>
+            </div>
+            <span class="pad-name">Coin</span>
+            <span class="pad-desc">Arcade pickup chime</span>
+          </button>
+
+          <button class="sound-pad accent-green" data-sound="powerUp" data-category="actions">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 7l-5-5-5 5"></path></svg>
+              <span class="pad-tag">CHORD</span>
+            </div>
+            <span class="pad-name">Power Up</span>
+            <span class="pad-desc">3-note ascending chord</span>
+          </button>
+
+          <button class="sound-pad accent-red" data-sound="delete" data-category="actions">
+            <div class="pad-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span class="pad-tag">TRASH</span>
+            </div>
+            <span class="pad-name">Delete</span>
+            <span class="pad-desc">Heavy item drop/trash</span>
           </button>
         </div>
       </section>

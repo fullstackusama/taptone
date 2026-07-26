@@ -46,49 +46,28 @@ export class TapTones {
   }
 
   // --- Preset shortcuts ---
-  public click(custom?: Partial<SoundOptions>): void {
-    this.presets.click(custom);
-  }
-
-  public pop(custom?: Partial<SoundOptions>): void {
-    this.presets.pop(custom);
-  }
-
-  public toggleOn(custom?: Partial<SoundOptions>): void {
-    this.presets.toggleOn(custom);
-  }
-
-  public toggleOff(custom?: Partial<SoundOptions>): void {
-    this.presets.toggleOff(custom);
-  }
-
-  public success(custom?: Partial<SoundOptions>): void {
-    this.presets.success(custom);
-  }
-
-  public error(custom?: Partial<SoundOptions>): void {
-    this.presets.error(custom);
-  }
-
-  public slide(custom?: Partial<SoundOptions>): void {
-    this.presets.slide(custom);
-  }
-
-  public laser(custom?: Partial<SoundOptions>): void {
-    this.presets.laser(custom);
-  }
-
-  public nudge(custom?: Partial<SoundOptions>): void {
-    this.presets.nudge(custom);
-  }
-
-  public zip(custom?: Partial<SoundOptions>): void {
-    this.presets.zip(custom);
-  }
-
-  public sparkle(custom?: Partial<SoundOptions>): void {
-    this.presets.sparkle(custom);
-  }
+  public click(custom?: Partial<SoundOptions>): void { this.presets.click(custom); }
+  public pop(custom?: Partial<SoundOptions>): void { this.presets.pop(custom); }
+  public tap(custom?: Partial<SoundOptions>): void { this.presets.tap(custom); }
+  public press(custom?: Partial<SoundOptions>): void { this.presets.press(custom); }
+  public release(custom?: Partial<SoundOptions>): void { this.presets.release(custom); }
+  public select(custom?: Partial<SoundOptions>): void { this.presets.select(custom); }
+  public toggleOn(custom?: Partial<SoundOptions>): void { this.presets.toggleOn(custom); }
+  public toggleOff(custom?: Partial<SoundOptions>): void { this.presets.toggleOff(custom); }
+  public switchFlip(custom?: Partial<SoundOptions>): void { this.presets.switchFlip(custom); }
+  public slide(custom?: Partial<SoundOptions>): void { this.presets.slide(custom); }
+  public success(custom?: Partial<SoundOptions>): void { this.presets.success(custom); }
+  public error(custom?: Partial<SoundOptions>): void { this.presets.error(custom); }
+  public warning(custom?: Partial<SoundOptions>): void { this.presets.warning(custom); }
+  public info(custom?: Partial<SoundOptions>): void { this.presets.info(custom); }
+  public notification(custom?: Partial<SoundOptions>): void { this.presets.notification(custom); }
+  public laser(custom?: Partial<SoundOptions>): void { this.presets.laser(custom); }
+  public nudge(custom?: Partial<SoundOptions>): void { this.presets.nudge(custom); }
+  public zip(custom?: Partial<SoundOptions>): void { this.presets.zip(custom); }
+  public sparkle(custom?: Partial<SoundOptions>): void { this.presets.sparkle(custom); }
+  public coin(custom?: Partial<SoundOptions>): void { this.presets.coin(custom); }
+  public powerUp(custom?: Partial<SoundOptions>): void { this.presets.powerUp(custom); }
+  public delete(custom?: Partial<SoundOptions>): void { this.presets.delete(custom); }
 }
 
 /**
