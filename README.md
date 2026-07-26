@@ -19,7 +19,7 @@ Traditional UI sound libraries force you to host and download heavy `.mp3` or `.
 - 🚀 **0KB Audio Downloads**: Zero external audio files required.
 - 📳 **Built-in Web Haptics**: Paired tactile vibration feedback for mobile devices.
 - ⚡ **Ultra Fast**: Zero latency ($<1\text{ ms}$) sound synthesis directly on the GPU/CPU.
-- 🪶 **Micro Footprint**: Under **2.4 KB** gzipped!
+- 🪶 **Micro Footprint**: Under **2.9 KB** gzipped!
 - ⚛️ **React & Vanilla JS**: Works everywhere (React, Vue, Svelte, Next.js, or plain JS).
 
 ---
@@ -44,12 +44,13 @@ yarn add taptones
 import { taptones } from 'taptones';
 
 // Play built-in tuned presets
-taptones.click();     // Crisp button click
-taptones.pop();       // Soft bubble pop
-taptones.toggleOn();  // Switch ON pitch step
-taptones.success();   // Dual-tone success chime
-taptones.error();     // Warning low buzz
-taptones.sparkle();   // Ascending shimmer
+taptones.click();        // Crisp button click
+taptones.pop();          // Soft bubble pop
+taptones.toggleOn();     // Switch ON pitch step
+taptones.success();      // Dual-tone success chime
+taptones.notification(); // Soft dual-tone bell
+taptones.sparkle();      // Ascending shimmer
+taptones.coin();         // Arcade pickup chime
 ```
 
 ### 2. React / Next.js App Router (`useTapTones`)
@@ -76,34 +77,47 @@ export function ActionButton() {
 }
 ```
 
-### 3. Vue 3 / Svelte / Remix / Nuxt
-
-```typescript
-import { taptones } from 'taptones';
-
-// Works seamlessly in all modern frontend frameworks
-function onToggle() {
-  taptones.toggleOn();
-}
-```
-
 ---
 
-## 🎛️ Sound Presets Matrix
+## 🎛️ 22 Built-in Presets Matrix
 
+### 🖱️ UI & Buttons
 | Method | Waveform | Sound Description | Use Case |
 | :--- | :--- | :--- | :--- |
 | `taptones.click()` | Triangle | Crisp mechanical switch | Primary buttons, links |
 | `taptones.pop()` | Sine | Soft bubble pop | Dropdowns, tooltips, modals |
+| `taptones.tap()` | Triangle | Glass tactile screen tap | Touch surfaces, cards |
+| `taptones.press()` | Sine | Soft button press down | Keypress down state |
+| `taptones.release()` | Sine | Soft button release up | Keypress up state |
+| `taptones.select()` | Sine | Clean item selection chime | List selection, radio buttons |
+
+### 🔀 Toggles & Switches
+| Method | Waveform | Sound Description | Use Case |
+| :--- | :--- | :--- | :--- |
 | `taptones.toggleOn()` | Sine | Upward pitch step | Dark mode switch, toggles ON |
 | `taptones.toggleOff()` | Sine | Downward pitch step | Switch OFF |
-| `taptones.success()` | Dual Sine | Upbeat two-note chime | Form submit, task complete |
-| `taptones.error()` | Sawtooth | Low warning buzz | Validation errors, warnings |
+| `taptones.switchFlip()` | Square | Mechanical switch flip | Physical toggle switches |
 | `taptones.slide()` | Sine | Futuristic pitch sweep | Sliders, tabs |
-| `taptones.laser()` | Sawtooth | Arcade zap | Game actions, delete button |
+
+### 🔔 Feedback & Status
+| Method | Waveform | Sound Description | Use Case |
+| :--- | :--- | :--- | :--- |
+| `taptones.success()` | Dual Sine | Upbeat two-note C5-E5 chime | Form submit, task complete |
+| `taptones.error()` | Sawtooth | Low warning buzz | Validation errors, failures |
+| `taptones.warning()` | Square | Double-pulse caution alert | Delete confirmation, warnings |
+| `taptones.info()` | Sine | Friendly info chime | Info toasts, helper tips |
+| `taptones.notification()` | Dual Sine | Soft dual-tone bell (D5-A5) | Push notifications, alerts |
+
+### 🎮 Actions & Gaming
+| Method | Waveform | Sound Description | Use Case |
+| :--- | :--- | :--- | :--- |
+| `taptones.laser()` | Sawtooth | Arcade zap | Game actions, destruction |
 | `taptones.nudge()` | Triangle | Tactile low thump | Drag & drop snap |
 | `taptones.zip()` | Triangle | Fast micro zip | Segmented control switch |
-| `taptones.sparkle()` | Arpeggio | Ascending shimmer | Achievements, likes, rewards |
+| `taptones.sparkle()` | Arpeggio | Ascending 4-note shimmer | Achievements, likes, rewards |
+| `taptones.coin()` | Dual Triangle | Classic arcade pickup chime | Points earned, rewards |
+| `taptones.powerUp()` | Chord | 3-note ascending chord | Level up, unlock feature |
+| `taptones.delete()` | Sawtooth | Heavy trash item drop | Deleting items, emptying trash |
 
 ---
 
