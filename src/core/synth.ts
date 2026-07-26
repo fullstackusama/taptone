@@ -170,8 +170,9 @@ export class SynthEngine {
       try { osc.disconnect(); gain.disconnect(); } catch { /* */ }
     };
 
-    osc.start(0);
-    osc.stop(ctx.currentTime + duration + 0.02);
+    // Start oscillator AT current time (now) so resume delay doesn't skip sound start!
+    osc.start(now);
+    osc.stop(now + duration + 0.01);
   }
 
   private playNoise(ctx: AudioContext, duration: number, volume: number): void {
@@ -190,8 +191,8 @@ export class SynthEngine {
     filter.frequency.value = 1000;
     src.buffer = this.noiseBuffer;
 
-    gain.gain.value = volume;
     const now = ctx.currentTime;
+    gain.gain.value = volume;
     gain.gain.setValueAtTime(volume, now);
     gain.gain.linearRampToValueAtTime(0.0001, now + duration);
 
@@ -203,7 +204,8 @@ export class SynthEngine {
       try { src.disconnect(); filter.disconnect(); gain.disconnect(); } catch { /* */ }
     };
 
-    src.start(0);
-    src.stop(ctx.currentTime + duration + 0.02);
+    // Start noise AT current time (now)
+    src.start(now);
+    src.stop(now + duration + 0.01);
   }
 }
