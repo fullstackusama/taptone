@@ -5,6 +5,7 @@ export default defineConfig(({ mode }) => {
   if (mode === 'library') {
     return {
       build: {
+        outDir: 'dist',
         lib: {
           entry: resolve(__dirname, 'src/index.ts'),
           name: 'TapTone',
@@ -26,7 +27,7 @@ export default defineConfig(({ mode }) => {
   return {
     root: '.',
     build: {
-      outDir: 'dist-demo',
+      outDir: 'dist',
     },
   };
 });
