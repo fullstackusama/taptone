@@ -40,6 +40,11 @@ export class TapTone {
     return this.synth.getAnalyserNode();
   }
 
+  /** Get AnalyserNode ONLY if AudioContext is running (safe for requestAnimationFrame loops) */
+  public getExistingAnalyser(): AnalyserNode | null {
+    return this.synth.getExistingAnalyser();
+  }
+
   // --- Preset shortcuts ---
   public click(custom?: Partial<SoundOptions>): void {
     this.presets.click(custom);

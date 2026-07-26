@@ -64,6 +64,15 @@ export class SynthEngine {
     return this.analyserNode;
   }
 
+  /**
+   * Safely returns AnalyserNode ONLY if AudioContext is already initialized and running.
+   * Does NOT trigger AudioContext instantiation or resume on background loops.
+   */
+  public getExistingAnalyser(): AnalyserNode | null {
+    if (!this.ctx || this.ctx.state !== 'running') return null;
+    return this.analyserNode;
+  }
+
   public configure(config: TapToneConfig): void {
     if (config.masterVolume !== undefined) {
       this.config.masterVolume = Math.max(0, Math.min(1, config.masterVolume));

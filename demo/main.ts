@@ -213,7 +213,7 @@ function startSpectrumVisualizer(): void {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const analyser = taptone.getAnalyser();
+    const analyser = taptone.getExistingAnalyser();
     if (!analyser) {
       drawIdleLine(ctx, canvas.width, canvas.height);
       return;
